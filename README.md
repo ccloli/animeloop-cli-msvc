@@ -1,3 +1,5 @@
+> The changes made on this fork has been merged to original repo, so you can compile it directly, check it out at [moeoverflow/animeloop-cli](https://github.com/moeoverflow/animeloop-cli).
+
 # animeloop-cli
 ![Animeloop Logo](https://animeloop.org/files/animeloop.gif)
 
@@ -66,11 +68,42 @@ git submodule update
 
 ##### Debian/Ubuntu
 
-> Not supported for this fork
+> Not supported for this fork, but you can cross compile it with MinGW.
 
 ##### Arch Linux
 
-> Not supported for this fork
+> Not supported for this fork, but you can cross compile it with MinGW.
+
+##### Windows MinGW
+
+```shell
+# - Assume you're building to mingw64, if you'd like to build to mingw32, replace `mingw-w64-x86_64` with `mingw-w64-i686`
+#
+# - Some packages are updated and not compatible, so some of the steps are using `pacman -U` to install specific version 
+#   packages with USTC Mirrors, you can change `https://mirrors.ustc.edu.cn/msys2/mingw/x86_64/` to other sources.
+
+# Build deps
+pacman -S libintl mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
+
+# Boost
+# - It seems that when using Boost 1.66+ will cause build fail
+pacman -U https://mirrors.ustc.edu.cn/msys2/mingw/x86_64/mingw-w64-x86_64-boost-1.64.0-3-any.pkg.tar.xz
+
+# OpenCV
+pacman -U https://mirrors.ustc.edu.cn/msys2/mingw/x86_64/mingw-w64-x86_64-opencv-3.4.3-2-any.pkg.tar.xz
+pacman -S mingw-w64-x86_64-hdf5
+
+# Jsoncpp
+# - JSONCPP comes with cmake, so if you've install cmake manually, you're not needed to install JSONCPP again
+pacman -S mingw-w64-x86_64-jsoncpp
+
+# FFmpeg
+# - Some dll files are missing in MSYS2 MinGW64 FFmpeg package, so you should download it from other builds
+# - You can also download it later, as it's not build dependency (but runtime dependency)
+# pacman -U https://mirrors.ustc.edu.cn/msys2/mingw/x86_64/mingw-w64-x86_64-ffmpeg-3.4.2-1-any.pkg.tar.xz
+wget https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-3.4.2-win64-static.zip
+unzip -p ffmpeg-3.4.2-win64-static.zip ffmpeg-3.4.2-win64-static/bin/ffmpeg.exe > /mingw64/bin/ffmpeg.exe
+```
 
 ##### Windows via Microsoft Visual Studio
 
